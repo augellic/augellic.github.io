@@ -1,0 +1,12 @@
+{{- /* Cartouche façon bloc-titre de plan. Reçoit : dict "titre" "rev" "lignes" (liste de dict libelle/valeur) */ -}}
+<div class="cartouche">
+  <div class="cartouche-titre">
+    <strong>{{ .titre }}</strong>
+    {{ with .rev }}<span class="etiquette">Rév. {{ . }}</span>{{ end }}
+  </div>
+  <dl>
+    {{- range .lignes }}{{ if .valeur }}
+    <dt>{{ .libelle }}</dt><dd>{{ .valeur }}</dd>
+    {{- end }}{{ end }}
+  </dl>
+</div>

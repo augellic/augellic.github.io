@@ -1,0 +1,7 @@
+{{- /* Image de carte d'un projet, ou cadre vide si l'image n'est pas encore fournie. */ -}}
+{{- with .Resources.GetMatch (.Params.vignette | default "vignette.*") -}}
+{{- $img := .Fill "800x500 webp q80" -}}
+<img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="{{ $.Params.vignetteAlt | default $.Title }}" loading="lazy">
+{{- else -}}
+<div class="cadre-vide"><span>Vignette à fournir : {{ .Params.vignetteAlt | default "vue d'ensemble du projet" }}</span></div>
+{{- end -}}

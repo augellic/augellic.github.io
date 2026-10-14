@@ -1,0 +1,9 @@
+# Environnement « preview » : aperçu hébergé ailleurs que sur le domaine final.
+# Construit avec : hugo --environment preview
+baseURL = "/"
+relativeURLs = true
+uglyURLs = true
+
+[params]
+  polices = "google"
+  noindex = true

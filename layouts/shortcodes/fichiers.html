@@ -1,0 +1,21 @@
+{{- /* Liste de fichiers téléchargeables. Chaque ligne : nom-du-fichier | description
+     Un fichier absent du dossier du projet s'affiche « à venir ».
+     Usage :
+     {{< fichiers >}}
+     modubox-plan.pdf | Mise en plan cotée du caisson
+     {{< /fichiers >}} */ -}}
+<ul class="fichiers">
+{{- range split (trim .Inner "\n ") "\n" }}
+  {{- $parts := split . "|" -}}
+  {{- $nom := trim (index $parts 0) " " -}}
+  {{- $desc := trim (index $parts 1 | default "") " " -}}
+  {{- $ext := upper (strings.TrimPrefix "." (path.Ext $nom)) -}}
+  <li><span class="format">{{ $ext }}</span>
+  {{- with $.Page.Resources.GetMatch $nom -}}
+    <a href="{{ .RelPermalink }}">{{ $desc }}</a>
+  {{- else -}}
+    <span class="absent">{{ $desc }}</span>
+  {{- end -}}
+  </li>
+{{- end }}
+</ul>

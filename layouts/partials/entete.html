@@ -1,0 +1,15 @@
+<header class="entete">
+  <div class="enveloppe">
+    <a class="marque" href="{{ "/" | relURL }}">
+      <b>{{ site.Params.auteur }}</b>
+      <span class="etiquette">{{ site.Params.metier }}</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      {{- $courante := . }}
+      {{- range site.Menus.main }}
+      {{- $actif := or ($courante.IsMenuCurrent "main" .) ($courante.HasMenuCurrent "main" .) }}
+      <a href="{{ .URL }}"{{ if $actif }} aria-current="page"{{ end }}>{{ .Name }}</a>
+      {{- end }}
+    </nav>
+  </div>
+</header>

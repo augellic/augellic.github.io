@@ -1,0 +1,17 @@
+{{- if .IsHome -}}
+{{- $same := slice -}}
+{{- with site.Params.linkedin }}{{ if not (strings.Contains . "VOTRE-") }}{{ $same = $same | append . }}{{ end }}{{ end -}}
+{{- with site.Params.github }}{{ if not (strings.Contains . "VOTRE-") }}{{ $same = $same | append . }}{{ end }}{{ end -}}
+{{- $p := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" site.Params.auteur
+  "jobTitle" site.Params.metier
+  "url" site.BaseURL
+  "address" (dict "@type" "PostalAddress" "addressLocality" "Lille" "addressRegion" "Hauts-de-France" "addressCountry" "FR")
+  "alumniOf" (dict "@type" "CollegeOrUniversity" "name" "Universidad Nacional Autónoma de México")
+  "knowsLanguage" (slice "fr" "en" "es")
+-}}
+{{- if $same }}{{ $p = merge $p (dict "sameAs" $same) }}{{ end -}}
+<script type="application/ld+json">{{ $p | jsonify | safeJS }}</script>
+{{- end -}}

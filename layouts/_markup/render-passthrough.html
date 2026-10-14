@@ -1,0 +1,9 @@
+{{- /* Formules LaTeX converties en MathML à la compilation : aucun script ni police à charger. */ -}}
+{{- $opts := dict "output" "mathml" "displayMode" (eq .Type "block") -}}
+{{- with try (transform.ToMath .Inner $opts) -}}
+  {{- with .Err -}}
+    {{- errorf "Formule invalide dans %s : %s" $.Page.File.Path . -}}
+  {{- else -}}
+    {{- .Value -}}
+  {{- end -}}
+{{- end -}}

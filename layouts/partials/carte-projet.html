@@ -1,0 +1,9 @@
+<a class="carte" href="{{ .RelPermalink }}">
+  <div class="vignette">{{ partial "vignette.html" . }}</div>
+  <div class="carte-corps">
+    <span class="etiquette">{{ .Params.cartouche.contexte }} · {{ .Params.cartouche.periode }}</span>
+    <h3>{{ .Title }}</h3>
+    <p>{{ .Params.resume }}</p>
+    {{ with .Params.cartouche.outils }}<ul class="puces">{{ range . }}<li>{{ . }}</li>{{ end }}</ul>{{ end }}
+  </div>
+</a>

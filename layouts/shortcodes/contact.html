@@ -1,0 +1,23 @@
+<div class="contact-carte">
+  <span class="etiquette">Adresse e-mail</span>
+  <div class="ligne-copie">
+    <code id="adresse-email">{{ site.Params.email }}</code>
+    <button type="button" id="copier-email">Copier</button>
+  </div>
+  <p><a href="mailto:{{ site.Params.email }}">Ouvrir dans ma messagerie</a></p>
+  {{ with site.Params.linkedin }}<p>Profil LinkedIn : <a href="{{ . }}" rel="me">{{ strings.TrimPrefix "https://www." . | strings.TrimSuffix "/" }}</a></p>{{ end }}
+</div>
+<script>
+(function () {
+  var b = document.getElementById("copier-email");
+  var t = document.getElementById("adresse-email");
+  if (!b || !t) return;
+  b.addEventListener("click", function () {
+    var ok = function () { b.textContent = "Copiée"; setTimeout(function () { b.textContent = "Copier"; }, 2000); };
+    var repli = function () { var r = document.createRange(); r.selectNodeContents(t); var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t.textContent.trim()).then(ok, repli);
+    } else { repli(); }
+  });
+})();
+</script>

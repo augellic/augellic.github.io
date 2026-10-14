@@ -1,0 +1,7 @@
+{{ define "main" }}
+<article class="page-simple">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.chapo }}<p class="chapo" style="font-size:var(--t-2);color:var(--encre-2);max-width:46ch">{{ . }}</p>{{ end }}
+  <div class="prose">{{ .Content }}</div>
+</article>
+{{ end }}

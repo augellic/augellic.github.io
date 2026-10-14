@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="accroche">
+  <div class="accroche-texte">
+    <span class="etiquette">Portfolio technique</span>
+    <h1>{{ .Params.accroche | default .Title }}</h1>
+    <p class="chapo">{{ .Params.chapo }}</p>
+    <div class="actions">
+      {{ with site.GetPage "/projets" }}<a class="bouton bouton-plein" href="{{ .RelPermalink }}">Voir les projets</a>{{ end }}
+      {{ with site.GetPage "/cv" }}<a class="bouton bouton-trait" href="{{ .RelPermalink }}">CV et dossier PDF</a>{{ end }}
+    </div>
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+  </div>
+  {{ partial "cartouche.html" (dict "titre" site.Params.auteur "rev" (.Params.revision | default "") "lignes" .Params.profil) }}
+</section>
+
+<div class="section-titre">
+  <h2>Projets</h2>
+  <span class="etiquette">Du plus récent au plus ancien</span>
+</div>
+<div class="grille-projets">
+  {{ range (site.GetPage "/projets").Pages.ByWeight }}{{ partial "carte-projet.html" . }}{{ end }}
+</div>
+{{ end }}

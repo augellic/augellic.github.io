@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="page-simple">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+  <div class="grille-projets">
+    {{ range .Pages.ByWeight }}{{ partial "carte-projet.html" . }}{{ end }}
+  </div>
+</div>
+{{ end }}

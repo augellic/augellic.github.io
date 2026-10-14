@@ -1,0 +1,72 @@
+# Configuration principale du site.
+# Tant que vous n'avez pas de domaine, baseURL pointe vers GitHub Pages.
+# Remplacez VOTRE-COMPTE par votre identifiant GitHub.
+# Le jour où vous achetez un domaine : changez baseURL et ajoutez static/CNAME.
+baseURL = "https://augellic.github.io/"
+languageCode = "fr-FR"
+defaultContentLanguage = "fr"
+title = "Cristopher Augelli — Ingénieur conception mécanique"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "rss"]
+
+[pagination]
+  pagerSize = 20
+
+[params]
+  auteur = "Cristopher Augelli"
+  metier = "Ingénieur conception mécanique"
+  description = "Portfolio de Cristopher Augelli, ingénieur mécanique basé à Lille : conception sous Siemens NX, prototypage, fabrication et essais."
+  localisation = "Lille, Hauts-de-France"
+  # Adresse publique de contact. À remplacer (ex. contact@votre-domaine.fr).
+  email = "prenom.nom@exemple.fr"
+  linkedin = "https://www.linkedin.com/in/VOTRE-PROFIL/"
+  github = "https://github.com/augellic"
+  recherche = "Poste en conception mécanique ou R&D en Hauts-de-France, ou master en alternance."
+  # true : affiche le bandeau « version de travail » et les blocs À COMPLÉTER.
+  # Passez à false le jour de la mise en ligne publique.
+  brouillon = true
+  # Polices : "locales" (fichiers dans static/fonts, conforme RGPD)
+  # ou "google" (chargées chez Google, réservé à l'aperçu).
+  polices = "locales"
+  # true : demande aux moteurs de ne pas indexer. Laissez true tant que le site
+  # est en construction ; passez à false avec brouillon = false au lancement.
+  noindex = true
+  miseAJour = "2026-10-14"
+
+[menus]
+  [[menus.main]]
+    name = "Projets"
+    pageRef = "/projets"
+    weight = 10
+  [[menus.main]]
+    name = "Parcours"
+    pageRef = "/parcours"
+    weight = 20
+  [[menus.main]]
+    name = "CV"
+    pageRef = "/cv"
+    weight = 30
+  [[menus.main]]
+    name = "Contact"
+    pageRef = "/contact"
+    weight = 40
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = false
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [["$$", "$$"]]
+      inline = [["\\(", "\\)"]]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 2
+
+[outputs]
+  home = ["html"]
+  section = ["html"]
+  page = ["html"]
+
+[sitemap]
+  changeFreq = "monthly"

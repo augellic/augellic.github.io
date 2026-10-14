@@ -1,0 +1,34 @@
+{{ define "main" }}
+{{ $c := .Params.cartouche }}
+<article>
+  <header class="fiche-entete">
+    <span class="etiquette">{{ $c.contexte }} · {{ $c.periode }}</span>
+    <h1>{{ .Title }}</h1>
+    <p class="chapo">{{ .Params.resume }}</p>
+  </header>
+  <div class="fiche">
+    <aside class="fiche-cote">
+      {{ partial "cartouche.html" (dict
+        "titre" "En bref"
+        "rev" ($c.revision | default "")
+        "lignes" (slice
+          (dict "libelle" "Contexte" "valeur" $c.contexte)
+          (dict "libelle" "Mon rôle" "valeur" $c.role)
+          (dict "libelle" "Période" "valeur" $c.periode)
+          (dict "libelle" "Outils" "valeur" (delimit ($c.outils | default slice) ", "))
+          (dict "libelle" "Matériau" "valeur" $c.materiau)
+          (dict "libelle" "Statut" "valeur" $c.statut)
+        )) }}
+      {{ if .TableOfContents }}
+      <nav class="sommaire" aria-label="Sommaire de la fiche">
+        <p class="etiquette" style="margin-bottom:0.5rem">Sommaire</p>
+        {{ .TableOfContents | replaceRE "<nav id=\"TableOfContents\">|</nav>" "" | replaceRE "<ul>" "<ol>" | replaceRE "</ul>" "</ol>" | safeHTML }}
+      </nav>
+      {{ end }}
+    </aside>
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+{{ end }}

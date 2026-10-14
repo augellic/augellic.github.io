@@ -1,0 +1,5 @@
+{{- /* Bloc « À compléter ». Masqué automatiquement quand brouillon = false.
+     Usage : {{< afaire >}}texte Markdown{{< /afaire >}} */ -}}
+{{- if site.Params.brouillon -}}
+<div class="afaire">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+{{- end -}}

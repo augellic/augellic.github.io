@@ -1,0 +1,19 @@
+% Extrait à intégrer dans l'en-tête de votre CV LaTeX.
+% Lien cliquable vers le portfolio + QR code pour les CV imprimés.
+% Préambule :
+%   \usepackage[hidelinks]{hyperref}
+%   \usepackage{qrcode}
+%
+% Remplacez l'adresse par la vôtre (github.io aujourd'hui, votre domaine plus tard).
+\newcommand{\portfolio}{https://augellic.github.io/projets/modubox/}
+\newcommand{\portfolioaffiche}{augellic.github.io}
+
+% Dans l'en-tête, à côté de l'e-mail :
+\href{\portfolio}{\portfolioaffiche}
+
+% QR code (environ 1,6 cm), par exemple en haut à droite :
+\begin{minipage}{1.8cm}
+  \centering
+  \qrcode[height=1.6cm]{\portfolio}\\[-1pt]
+  {\tiny Portfolio}
+\end{minipage}

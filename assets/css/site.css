@@ -1,0 +1,290 @@
+/* Concept : la feuille de dessin technique. Filets fins, cartouches
+   (blocs-titre ISO 7200) pour les fiches, texte sobre en colonne lisible. */
+:root {
+  --papier: #f5f6f4;
+  --surface: #ffffff;
+  --encre: #1b2127;
+  --encre-2: #4d5760;
+  --trait: #d3d8d5;
+  --trait-fort: #9aa3a9;
+  --accent: #1d5d8c;
+  --accent-doux: #e2ebf2;
+  --afaire-fond: #fff4d6;
+  --afaire-trait: #d9a93a;
+  --afaire-texte: #6e4a00;
+
+  --f-titre: "Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --f-texte: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-tech: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --t-0: 0.8125rem;
+  --t-1: 1.0625rem;
+  --t-2: 1.3125rem;
+  --t-3: 1.75rem;
+  --t-4: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+
+  --mesure: 66ch;
+  --large: 72rem;
+  --rayon: 3px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papier: #121619; --surface: #192025; --encre: #e4e8e6; --encre-2: #a2acb3;
+    --trait: #2b343a; --trait-fort: #56626a; --accent: #74b2e0; --accent-doux: #1a2b38;
+    --afaire-fond: #2a2310; --afaire-trait: #8a6a22; --afaire-texte: #f0c873;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papier: #121619; --surface: #192025; --encre: #e4e8e6; --encre-2: #a2acb3;
+  --trait: #2b343a; --trait-fort: #56626a; --accent: #74b2e0; --accent-doux: #1a2b38;
+  --afaire-fond: #2a2310; --afaire-trait: #8a6a22; --afaire-texte: #f0c873;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--encre);
+  font-family: var(--f-texte);
+  font-size: var(--t-1);
+  line-height: 1.6;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--f-titre); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: var(--t-4); letter-spacing: -0.005em; }
+h2 { font-size: var(--t-3); }
+h3 { font-size: var(--t-2); }
+p { margin: 0; }
+code, kbd { font-family: var(--f-tech); font-size: 0.9em; }
+
+.enveloppe {
+  max-width: var(--large);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.etiquette {
+  font-family: var(--f-tech);
+  font-size: var(--t-0);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--encre-2);
+}
+
+/* Bandeau brouillon */
+.bandeau {
+  background: var(--afaire-fond);
+  border-bottom: 1px solid var(--afaire-trait);
+  color: var(--afaire-texte);
+  font-size: var(--t-0);
+}
+.bandeau .enveloppe { padding-block: 0.4rem; font-family: var(--f-tech); }
+
+/* En-tête */
+.entete { border-bottom: 1px solid var(--trait); background: var(--papier); }
+.entete .enveloppe {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 2rem; padding-block: 1.1rem;
+}
+.marque { text-decoration: none; color: var(--encre); display: flex; flex-direction: column; gap: 0.1rem; }
+.marque b {
+  font-family: var(--f-titre); font-weight: 600; font-size: 1.35rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+.nav a {
+  font-family: var(--f-titre); font-weight: 500; font-size: 1.1rem;
+  color: var(--encre); text-decoration: none; padding-block: 0.2rem;
+  border-bottom: 2px solid transparent;
+}
+.nav a:hover { border-bottom-color: var(--trait-fort); }
+.nav a[aria-current="page"] { border-bottom-color: var(--accent); }
+
+main { padding-block: clamp(2rem, 4vw, 3.5rem); }
+
+/* Accueil */
+.accroche {
+  display: grid; gap: 2.5rem; align-items: start;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+}
+.accroche-texte { display: grid; gap: 1.25rem; min-width: 0; }
+.accroche-texte .chapo { font-size: var(--t-2); line-height: 1.45; color: var(--encre-2); max-width: 34ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.bouton {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--f-titre); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.02em;
+  padding: 0.55rem 1.1rem; border-radius: var(--rayon);
+  border: 1px solid var(--accent); text-decoration: none;
+}
+.bouton-plein { background: var(--accent); color: var(--papier); }
+.bouton-plein:hover { filter: brightness(1.08); }
+.bouton-trait { color: var(--accent); background: transparent; }
+.bouton-trait:hover { background: var(--accent-doux); }
+
+/* Cartouche (bloc-titre de plan) */
+.cartouche {
+  border: 1.5px solid var(--encre);
+  background: var(--surface);
+  font-size: 0.95rem;
+  min-width: 0;
+}
+.cartouche-titre {
+  display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
+  padding: 0.55rem 0.8rem; border-bottom: 1.5px solid var(--encre);
+}
+.cartouche-titre strong { font-family: var(--f-titre); font-weight: 600; font-size: 1.15rem; }
+.cartouche dl { margin: 0; display: grid; grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr); }
+.cartouche dt, .cartouche dd { margin: 0; padding: 0.45rem 0.8rem; border-bottom: 1px solid var(--trait); }
+.cartouche dt {
+  font-family: var(--f-tech); font-size: var(--t-0); letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--encre-2); border-right: 1px solid var(--trait);
+}
+.cartouche dd { overflow-wrap: anywhere; }
+.cartouche dl > :nth-last-child(-n + 2) { border-bottom: 0; }
+
+/* Sections */
+.section-titre {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+  gap: 0.5rem 1rem; border-bottom: 1px solid var(--trait); padding-bottom: 0.6rem;
+  margin-block: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+}
+
+/* Cartes projet */
+.grille-projets { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.carte {
+  display: grid; grid-template-rows: auto 1fr; background: var(--surface);
+  border: 1px solid var(--trait); border-radius: var(--rayon);
+  text-decoration: none; color: var(--encre); transition: border-color 0.15s;
+}
+.carte:hover { border-color: var(--trait-fort); }
+.carte .vignette { aspect-ratio: 16 / 10; border-bottom: 1px solid var(--trait); overflow: hidden; max-width: 100%; }
+.carte .vignette img { width: 100%; height: 100%; object-fit: cover; }
+.carte-corps { display: grid; gap: 0.6rem; padding: 1rem 1.1rem 1.2rem; align-content: start; }
+.carte h3 { font-size: 1.4rem; }
+.carte p { color: var(--encre-2); }
+.puces { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+.puces li {
+  font-family: var(--f-tech); font-size: 0.75rem; padding: 0.1rem 0.45rem;
+  border: 1px solid var(--trait); border-radius: var(--rayon); color: var(--encre-2);
+}
+
+/* Emplacement d'image manquante : cadre de dessin vide */
+.cadre-vide {
+  position: relative; display: grid; place-items: center; text-align: center;
+  width: 100%; height: 100%; min-height: 9rem; padding: 1.5rem;
+  background:
+    linear-gradient(var(--trait), var(--trait)) center / 1px 100% no-repeat,
+    linear-gradient(var(--trait), var(--trait)) center / 100% 1px no-repeat,
+    var(--surface);
+  color: var(--encre-2);
+}
+.cadre-vide span {
+  background: var(--surface); padding: 0.35rem 0.6rem; border: 1px dashed var(--trait-fort);
+  font-family: var(--f-tech); font-size: var(--t-0); max-width: 30ch;
+}
+
+/* Pages projet */
+.fiche { display: grid; gap: 2.5rem; grid-template-columns: minmax(0, 19rem) minmax(0, 1fr); align-items: start; }
+.fiche-cote { display: grid; gap: 1.5rem; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); min-width: 0; }
+.sommaire ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; counter-reset: s; }
+.sommaire li { counter-increment: s; }
+.sommaire a {
+  display: grid; grid-template-columns: 2rem 1fr; text-decoration: none; color: var(--encre-2);
+  padding-block: 0.15rem; font-size: 0.98rem;
+}
+.sommaire a::before { content: counter(s, decimal-leading-zero); font-family: var(--f-tech); font-size: var(--t-0); padding-top: 0.15rem; color: var(--trait-fort); }
+.sommaire a:hover { color: var(--accent); }
+.fiche-entete { display: grid; gap: 0.8rem; margin-bottom: 2rem; }
+.fiche-entete .chapo { font-size: var(--t-2); color: var(--encre-2); line-height: 1.45; max-width: 46ch; }
+
+.prose { max-width: var(--mesure); min-width: 0; }
+.prose > * + * { margin-top: 1.05rem; }
+.prose h2 {
+  margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--trait);
+  font-size: 1.9rem; scroll-margin-top: 1.5rem;
+}
+.prose h3 { margin-top: 2rem; }
+.prose ul, .prose ol { padding-left: 1.3rem; }
+.prose li + li { margin-top: 0.3rem; }
+.prose blockquote { margin-inline: 0; padding-left: 1rem; border-left: 3px solid var(--trait-fort); color: var(--encre-2); }
+.prose hr { border: 0; border-top: 1px solid var(--trait); }
+
+.tableau { overflow-x: auto; max-width: 100%; border: 1px solid var(--trait); border-radius: var(--rayon); background: var(--surface); }
+.tableau table { border-collapse: collapse; width: 100%; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.tableau th, .tableau td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--trait); vertical-align: top; }
+.tableau th {
+  font-family: var(--f-tech); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--encre-2); background: var(--papier); white-space: nowrap;
+}
+.tableau tr:last-child td { border-bottom: 0; }
+
+math[display="block"] { margin-block: 1.2rem; font-size: 1.15em; overflow-x: auto; max-width: 100%; }
+
+figure { margin: 0; }
+.figure { display: grid; gap: 0.5rem; margin-block: 1.6rem !important; }
+.figure .media { border: 1px solid var(--trait); background: var(--surface); aspect-ratio: var(--ratio, 16 / 10); max-width: 100%; overflow: hidden; }
+.figure .media img { width: 100%; height: 100%; object-fit: contain; }
+.figure figcaption { font-size: 0.92rem; color: var(--encre-2); }
+.figure figcaption b { font-family: var(--f-tech); font-weight: 500; font-size: var(--t-0); color: var(--encre); margin-right: 0.4rem; }
+
+/* Bloc À COMPLÉTER */
+.afaire {
+  border: 1px dashed var(--afaire-trait); background: var(--afaire-fond); color: var(--afaire-texte);
+  padding: 0.75rem 0.9rem; border-radius: var(--rayon); font-size: 0.97rem;
+}
+.afaire::before {
+  content: "À compléter"; display: block; font-family: var(--f-tech); font-size: 0.72rem;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.25rem; font-weight: 500;
+}
+.afaire > * + * { margin-top: 0.4rem; }
+.afaire ul { padding-left: 1.2rem; margin: 0; }
+
+.note {
+  border-left: 3px solid var(--accent); background: var(--accent-doux);
+  padding: 0.75rem 0.9rem; font-size: 0.97rem;
+}
+
+/* Fichiers */
+.fichiers { list-style: none; padding: 0 !important; display: grid; gap: 0.5rem; }
+.fichiers li { margin: 0 !important; display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; padding: 0.6rem 0.8rem; border: 1px solid var(--trait); background: var(--surface); border-radius: var(--rayon); }
+.fichiers .format { font-family: var(--f-tech); font-size: 0.75rem; color: var(--encre-2); min-width: 3.5rem; }
+.fichiers .absent { color: var(--encre-2); }
+.fichiers .absent::after { content: " · à venir"; font-family: var(--f-tech); font-size: 0.75rem; color: var(--afaire-texte); }
+
+/* Pages simples */
+.page-simple { display: grid; gap: 1.5rem; }
+.page-simple .prose { max-width: var(--mesure); }
+
+.contact-carte { display: grid; gap: 0.75rem; max-width: 34rem; }
+.ligne-copie { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.ligne-copie code { font-size: 1.05rem; padding: 0.35rem 0.6rem; border: 1px solid var(--trait); background: var(--surface); border-radius: var(--rayon); user-select: all; overflow-wrap: anywhere; }
+.ligne-copie button {
+  font: inherit; font-family: var(--f-titre); font-weight: 600; cursor: pointer;
+  padding: 0.35rem 0.8rem; border: 1px solid var(--accent); color: var(--accent);
+  background: transparent; border-radius: var(--rayon);
+}
+
+/* Pied de page */
+.pied { border-top: 1px solid var(--trait); margin-top: 3rem; font-size: 0.92rem; color: var(--encre-2); }
+.pied .enveloppe { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.5rem 2rem; }
+.pied nav { display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; }
+.pied a { color: var(--encre-2); }
+
+@media (max-width: 860px) {
+  .accroche { grid-template-columns: minmax(0, 1fr); }
+  .fiche { grid-template-columns: minmax(0, 1fr); }
+  .fiche-cote { position: static; }
+  .sommaire { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+@media print {
+  .entete .nav, .bandeau, .sommaire, .pied nav { display: none; }
+  .fiche { grid-template-columns: 1fr; }
+  .fiche-cote { position: static; }
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body>
+{{ if site.Params.brouillon }}
+<div class="bandeau"><div class="enveloppe">Version de travail : les blocs jaunes « À compléter » signalent le contenu à fournir.</div></div>
+{{ end }}
+{{ partial "entete.html" . }}
+<main id="contenu">
+  <div class="enveloppe">
+  {{ block "main" . }}{{ end }}
+  </div>
+</main>
+{{ partial "pied.html" . }}
+</body>
+</html>

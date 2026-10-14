@@ -1,0 +1,36 @@
+{{- $titre := cond .IsHome site.Title (printf "%s · %s" .Title site.Params.auteur) -}}
+{{- $desc := or .Params.resume .Description site.Params.description -}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ $titre }}</title>
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ site.Params.auteur }}">
+{{ if site.Params.noindex }}<meta name="robots" content="noindex, nofollow">{{ end }}
+<link rel="canonical" href="{{ .Permalink }}">
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="{{ $titre }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{ with .Resources.GetMatch (.Params.vignette | default "vignette.*") }}<meta property="og:image" content="{{ .Permalink }}">{{ end }}
+{{ if eq site.Params.polices "google" -}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+{{- end }}
+<style>
+{{- if eq site.Params.polices "locales" }}
+{{- range slice
+  (slice "Barlow Semi Condensed" "500" "normal" "barlow-semi-condensed-latin-500-normal")
+  (slice "Barlow Semi Condensed" "600" "normal" "barlow-semi-condensed-latin-600-normal")
+  (slice "Source Sans 3" "400" "normal" "source-sans-3-latin-400-normal")
+  (slice "Source Sans 3" "400" "italic" "source-sans-3-latin-400-italic")
+  (slice "Source Sans 3" "600" "normal" "source-sans-3-latin-600-normal")
+  (slice "IBM Plex Mono" "400" "normal" "ibm-plex-mono-latin-400-normal")
+  (slice "IBM Plex Mono" "500" "normal" "ibm-plex-mono-latin-500-normal") }}
+@font-face{font-family:"{{ index . 0 }}";font-weight:{{ index . 1 }};font-style:{{ index . 2 }};font-display:swap;src:url("{{ printf "fonts/%s.woff2" (index . 3) | relURL }}") format("woff2")}
+{{- end }}
+{{- end }}
+{{ (resources.Get "css/site.css" | minify).Content | safeCSS }}
+</style>
+{{ partial "jsonld.html" . }}
